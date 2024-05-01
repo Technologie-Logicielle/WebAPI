@@ -3,6 +3,18 @@
 import bcrypt from "bcrypt"
 import { sql } from '../../utils/sql.js'
 
+const UserInfo = {
+  type: 'object',
+  properties: {
+    id: { type: 'number' },
+    username: { type: 'string' },
+    first_name: { type: 'string' },
+    last_name: { type: 'string' },
+    email: { type: 'string' },
+    role: { type: 'string' },
+  }
+}
+
 async function hashPassword(password) {
   const saltRounds = 10;
   return await bcrypt.hash(password, saltRounds);
@@ -15,17 +27,7 @@ function getToken(user) {
   return `Bearer ${token}`;
 }
 
-const UserData = {
-  type: 'object',
-  properties: {
-    id: { type: 'string' },
-    name: { type: 'string' },
-    email: { type: 'string' },
-    role: { type: 'string' },
-  }
-}
-
-export const Security = [{
+const security = [{
   bearerAuth: []
 }];
 
@@ -47,7 +49,7 @@ const AuthBodySchema = {
     200: {
       type: 'object',
       properties: {
-        ...UserData.properties,
+        ...UserInfo.properties,
         token: { type: 'string' },
       }
     }
@@ -70,14 +72,14 @@ const SignupSchema = {
     200: {
       type: 'object',
       properties: {
-        ...UserData.properties, token: { type: 'string' },
+        ...UserInfo.properties, token: { type: 'string' },
       }
     }
   }
 }
 
 const ResetPasswordSchema = {
-  security: Security,
+  security: security,
   body: {
     type: 'object',
     required: ['password', 'new_password'],
@@ -118,7 +120,6 @@ export default async function(fastify, opts) {
     const token = getToken(user);
     return {
       ...user,
-      name: user.first_name + ' ' + user.last_name,
       token,
     }
   })
@@ -146,7 +147,6 @@ export default async function(fastify, opts) {
     return {
       ...user,
       ...inserted,
-      name: user.first_name + ' ' + user.last_name,
       token
     };
   });
@@ -173,7 +173,6 @@ export default async function(fastify, opts) {
         UPDATE users SET hashed_password = @hashed_password 
         WHERE id=@id;
     `);
-    reply.code(204);
-    return;
+    return reply.code(204);
   });
 }
