@@ -22,13 +22,6 @@ async function hashPassword(password) {
 async function verifyPassword(password, hash) {
   return await bcrypt.compare(password, hash);
 }
-function getToken(user) {
-  const token = fastify.jwt.sign(
-    { id: user.id, email: user.email, role: user.role },
-    { expiresIn: "1d" },
-  );
-  return `Bearer ${token}`;
-}
 
 const security = [
   {
@@ -101,12 +94,20 @@ const ResetPasswordSchema = {
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
-export default async function (fastify, opts) {
+export default async function(fastify, opts) {
   const TYPES = fastify.mssql.sqlTypes;
+  function getToken(user) {
+    const token = fastify.jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      { expiresIn: "1d" },
+    );
+    return `Bearer ${token}`;
+  }
+
   fastify.post(
     "/signin",
     { schema: AuthBodySchema },
-    async function (request, reply) {
+    async function(request, reply) {
       const pool = await fastify.mssql.pool.connect();
 
       const res = await pool
@@ -138,7 +139,7 @@ export default async function (fastify, opts) {
   fastify.post(
     "/signup",
     { schema: SignupSchema },
-    async function (request, reply) {
+    async function(request, reply) {
       const pool = await fastify.mssql.pool.connect();
       const { password, ...user } = request.body;
       const req = pool.request();
@@ -168,7 +169,7 @@ export default async function (fastify, opts) {
   fastify.post(
     "/password",
     { schema: ResetPasswordSchema, onRequest: [fastify.authenticate] },
-    async function (request, reply) {
+    async function(request, reply) {
       const pool = await fastify.mssql.pool.connect();
       let res = await pool
         .request()
