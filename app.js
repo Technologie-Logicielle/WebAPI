@@ -28,7 +28,7 @@ export default async function(fastify, opts) {
     },
   });
 
-  fastify.register(cors, { origin: ["http://localhost:\\d+$/", process.env.FE_DOMAIN] })
+  fastify.register(cors, { origin: [/http:\/\/localhost:\d+$/, process.env.FE_DOMAIN] })
 
   if (process.env.NODE_ENV === "development") {
     const swagger = await import("@fastify/swagger");
