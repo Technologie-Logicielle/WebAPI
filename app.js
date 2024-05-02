@@ -3,6 +3,7 @@
 import { join } from "path";
 import AutoLoad from "@fastify/autoload";
 import mssql from "fastify-mssql";
+import cors from "@fastify/cors"
 
 const __dirname = import.meta.dirname;
 if (__dirname === undefined) {
@@ -13,7 +14,7 @@ export const options = {};
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
-export default async function (fastify, opts) {
+export default async function(fastify, opts) {
   // Place here your custom code!
 
   fastify.register(mssql, {
@@ -26,6 +27,8 @@ export default async function (fastify, opts) {
       trustServerCertificate: true,
     },
   });
+
+  fastify.register(cors, { origin: ["http://localhost:\\d+$/", process.env.FE_DOMAIN] })
 
   if (process.env.NODE_ENV === "development") {
     const swagger = await import("@fastify/swagger");

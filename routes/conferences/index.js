@@ -48,6 +48,7 @@ const Notification = {
 const Conference = {
   type: "object",
   properties: {
+    conference_id: {type: "number"},
     code: { type: "string" },
     name: { type: "string" },
     country: { type: "string" },
@@ -177,10 +178,10 @@ export default async function (fastify, opts) {
           (SELECT p.* FOR JSON PATH) as papers,
           (SELECT d.* FOR JSON PATH) as deadlines
         FROM conference c
-        LEFT JOIN papers p ON c.id = p.conference_id
-        LEFT JOIN deadline d ON c.id = d.conference_code
-        LEFT JOIN notification n ON c.id = n.conference_code
-        WHERE c.id = @id
+        LEFT JOIN papers p ON c.conference_id = p.conference_id
+        LEFT JOIN deadline d ON c.conference_id = d.conference_code
+        LEFT JOIN notification n ON c.conference_id = n.conference_code
+        WHERE c.conference_id = @id
       `,
         );
       if (!res.recordset.length) {
