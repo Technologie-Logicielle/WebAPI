@@ -13,7 +13,8 @@
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
     "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js"
+    "dev": "fastify start -w -l info -P app.js",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +36,12 @@
   "devDependencies": {
     "@fastify/swagger": "^8.14.0",
     "@scalar/fastify-api-reference": "^1.22.3",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "3.2.5",
     "tap": "^16.1.0"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
