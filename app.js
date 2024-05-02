@@ -35,6 +35,9 @@ export default async function(fastify, opts) {
     const reference = await import("@scalar/fastify-api-reference");
     fastify.register(swagger, {
       openapi: {
+        info: {
+          title: "spiderbot-backend"
+        },
         components: {
           securitySchemes: {
             bearerAuth: {

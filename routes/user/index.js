@@ -28,16 +28,22 @@ const security = [
     bearerAuth: [],
   },
 ];
+const tags = ['users']
+
+const email = { type: "string", format: "email" };
+const username = { type: "string", pattern: "^[a-z][a-z0-9_]+$", minLength: 6, maxLength: 20 };
+const password = { type: "string", pattern: "^[a-zA-Z0-9]+$", minLength: 6, maxLength: 20 };
 
 /**
  * @implements {import('fastify').FastifySchema}
  */
 const AuthBodySchema = {
+  tags,
   body: {
     type: "object",
     properties: {
-      email: { type: "string" },
-      password: { type: "string" },
+      email,
+      password,
     },
     required: ["email", "password"],
   },
@@ -53,14 +59,15 @@ const AuthBodySchema = {
 };
 
 const SignupSchema = {
+  tags,
   body: {
     type: "object",
     properties: {
-      username: { type: "string" },
+      username,
       first_name: { type: "string" },
       last_name: { type: "string" },
-      email: { type: "string" },
-      password: { type: "string" },
+      email,
+      password,
     },
     required: ["username", "first_name", "last_name", "email", "password"],
   },
@@ -76,17 +83,14 @@ const SignupSchema = {
 };
 
 const ResetPasswordSchema = {
+  tags,
   security: security,
   body: {
     type: "object",
     required: ["password", "new_password"],
     properties: {
-      password: {
-        type: "string",
-      },
-      new_password: {
-        type: "string",
-      },
+      password,
+      new_password: password,
     },
   },
 };

@@ -7,6 +7,7 @@ const security = [
     bearerAuth: [],
   },
 ];
+const tags = ['admin']
 
 const Conference = {
   type: "object",
@@ -16,6 +17,7 @@ const Conference = {
 };
 
 const UpdateConferenceSchema = {
+  tags,
   security,
   params: {
     id: { type: "number" },
@@ -28,9 +30,12 @@ const UpdateConferenceSchema = {
   },
 };
 
-const ConfigSchema = {};
+const ConfigSchema = {
+  tags,
+};
 
 const ConferencesSchema = {
+  tags,
   security,
   response: {
     200: {

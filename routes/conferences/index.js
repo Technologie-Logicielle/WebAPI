@@ -8,6 +8,7 @@ const security = [
     bearerAuth: [],
   },
 ];
+export const tags = ['conferences'];
 
 const SearchParams = {
   type: "object",
@@ -103,11 +104,13 @@ const ConferenceDetails = {
 };
 
 const ConferenceSchema = {
+  tags,
   response: {
     200: ConferenceDetails,
   },
 };
 const ConferenceListSchema = {
+  tags,
   querystring: SearchParams,
   response: {
     200: {
@@ -118,6 +121,7 @@ const ConferenceListSchema = {
 };
 
 const FollowSchema = {
+  tags,
   security,
 };
 

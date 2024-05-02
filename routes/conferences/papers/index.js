@@ -1,10 +1,18 @@
+import { tags } from '../index.js'
+import { sql } from '../../../utils/sql.js';
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */
-export default async function (fastify, opts) {
-  fastify.get("/:id", {}, async function (request, reply) {
-    // await fastify.mssql.pool.connect();
-    // const res = await fastify.mssql.pool.query(sql`SELECT 1`);
-    return {};
+export default async function(fastify, opts) {
+  fastify.get("/:id", { schema: { params: { type: 'object', properties: { id: { type: 'number' } } }, tags } }, async function(request, reply) {
+    const pool = await fastify.mssql.pool.connect();
+    const res = await pool
+      .request()
+      .input('id', request.params.id)
+      .query(sql`
+        SELECT * FROM papers WHERE id = @id
+      `);
+    if (!res.recordset.length) return reply.callNotFound();
+    return res.recordset[0];
   });
 }
