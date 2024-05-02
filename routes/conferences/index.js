@@ -16,16 +16,14 @@ const SearchParams = {
     name: { type: "string" },
     country: { type: "string" },
     city: { type: "string" },
-    // date: { type: 'string' },
-    // topic: { type: 'string' },
     page: { type: "number", default: 1 },
-    pageSize: { type: "number", default: 20 },
+    pageSize: { type: "number", default: 20, minimum: 10, maximum: 50 },
     orderBy: {
       type: "string",
-      default: "name",
-      enum: ["name", "city", "country"],
+      default: "end_date",
+      enum: ["start_date", "end_date", "name", "city", "country"],
     },
-    order: { type: "string", default: "asc", enum: ["asc", "desc"] },
+    order: { type: "string", default: "desc", enum: ["asc", "desc"] },
   },
   additionalProperties: false,
 };
@@ -55,6 +53,10 @@ const Conference = {
     country: { type: "string" },
     city: { type: "string" },
     date: { type: "string" },
+    start_date: { type: "string", format: "date" },
+    end_date: { type: "string", format: "date" },
+    description: { type: "string", },
+    url: { type: "string", },
   },
 };
 
@@ -114,8 +116,11 @@ const ConferenceListSchema = {
   querystring: SearchParams,
   response: {
     200: {
+      conferences: {
       type: "array",
       items: Conference,
+      },
+      count: { type: 'number'}
     },
   },
 };
@@ -159,10 +164,15 @@ export default async function (fastify, opts) {
         WHERE ${wheres.join(sql` AND `)}
         ORDER BY ${orderBy} ${order}
         OFFSET @offset ROWS
-        FETCH NEXT @limit ROWS ONLY
+        FETCH NEXT @limit ROWS ONLY;
+
+        SELECT 
+          count(*) as c
+        FROM conference
+        WHERE ${wheres.join(sql` AND `)}
       `,
       );
-      return res.recordset;
+      return { conferences: res.recordsets[0], count: res.recordsets[1][0].c };
     },
   );
 
