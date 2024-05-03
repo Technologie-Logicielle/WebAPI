@@ -193,10 +193,10 @@ export default async function(fastify, opts) {
         .request()
         .input("hashed_password", TYPES.VarChar, newHashedPassword)
         .input("id", TYPES.Int, request.user.id).query(sql`
-        UPDATE users SET hashed_password = @hashed_password 
-        WHERE id=@id;
-    `);
-      return reply.code(204);
+          UPDATE users SET hashed_password = @hashed_password 
+          WHERE id=@id;
+      `);
+      reply.code(204).send();
     },
   );
 }

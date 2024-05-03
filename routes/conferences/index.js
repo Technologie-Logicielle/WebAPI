@@ -199,7 +199,8 @@ export default async function (fastify, opts) {
       `,
         );
       if (!res.recordset.length) {
-        return reply.callNotFound();
+        reply.callNotFound();
+        return;
       }
 
       return res.recordset.map((c) => ({
@@ -224,7 +225,8 @@ export default async function (fastify, opts) {
       WHERE conf_code = @id AND user_id = @userId
     `);
       if (res.recordset.length) {
-        return reply.code(204);
+        reply.code(204);
+        return;
       }
       await pool
         .request()
@@ -233,7 +235,7 @@ export default async function (fastify, opts) {
         INSERT INTO user_follow_conference (conf_code, user_id)
         VALUES(@id, @userId);   
       `);
-      return reply.code(204);
+      reply.code(204);
     },
   );
 
@@ -249,7 +251,7 @@ export default async function (fastify, opts) {
         DELETE FROM user_follow_conference
         WHERE conf_code = @id AND user_id = @userId
       `);
-      return reply.code(204);
+      reply.code(204);
     },
   );
 }

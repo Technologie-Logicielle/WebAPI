@@ -12,7 +12,7 @@ export default async function(fastify, opts) {
       .query(sql`
         SELECT * FROM papers WHERE id = @id
       `);
-    if (!res.recordset.length) return reply.callNotFound();
+    if (!res.recordset.length) { reply.callNotFound(); return; }
     return res.recordset[0];
   });
 }
