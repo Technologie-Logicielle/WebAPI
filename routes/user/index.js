@@ -2,8 +2,9 @@
 
 import bcrypt from "bcrypt";
 import { sql } from "../../utils/sql.js";
+import { security, tags as allTags } from "../../constants/schema.js";
 
-const UserInfo = {
+export const UserInfo = {
   type: "object",
   properties: {
     id: { type: "number" },
@@ -23,12 +24,7 @@ async function verifyPassword(password, hash) {
   return await bcrypt.compare(password, hash);
 }
 
-const security = [
-  {
-    bearerAuth: [],
-  },
-];
-const tags = ['users']
+const tags = [allTags.user]
 
 const email = { type: "string", format: "email" };
 const username = { type: "string", pattern: "^[a-z][a-z0-9_]+$", minLength: 6, maxLength: 20 };

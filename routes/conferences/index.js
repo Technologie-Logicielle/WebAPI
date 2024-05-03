@@ -2,13 +2,9 @@
 
 import mssql from "mssql";
 import { sql } from "../../utils/sql.js";
+import { security, tags as allTags } from "../../constants/schema.js";
 
-const security = [
-  {
-    bearerAuth: [],
-  },
-];
-export const tags = ['conferences'];
+export const tags = [allTags.conference];
 
 const SearchParams = {
   type: "object",
@@ -44,11 +40,10 @@ const Notification = {
   },
 };
 
-const Conference = {
+export const Conference = {
   type: "object",
   properties: {
     conference_id: {type: "number"},
-    code: { type: "string" },
     name: { type: "string" },
     country: { type: "string" },
     city: { type: "string" },
