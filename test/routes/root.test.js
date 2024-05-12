@@ -1,7 +1,8 @@
 "use strict";
 
 import { test } from "tap";
-import { build } from "../helper";
+import { build } from "../helper.js";
+import p from "../../package.json" assert { type: "json"};
 
 test("default root route", async (t) => {
   const app = await build(t);
@@ -9,7 +10,7 @@ test("default root route", async (t) => {
   const res = await app.inject({
     url: "/",
   });
-  t.same(JSON.parse(res.payload), { root: true });
+  t.same(JSON.parse(res.payload), { message: "OK", version: p.version });
 });
 
 // inject callback style:

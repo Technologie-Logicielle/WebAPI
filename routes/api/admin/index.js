@@ -1,9 +1,8 @@
 "use strict";
 
-import { sql } from "../../utils/sql.js";
-import { security } from "../../constants/schema.js";
+import { sql } from "../../../utils/sql.js";
+import { security, tags as allTags } from "../../../constants/schema.js";
 import { Conference } from "../conferences/index.js";
-import { tags as allTags } from "../../constants/schema.js";
 
 export const tags = [allTags.admin]
 

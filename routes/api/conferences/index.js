@@ -1,8 +1,8 @@
 "use strict";
 
 import mssql from "mssql";
-import { sql } from "../../utils/sql.js";
-import { security, tags as allTags } from "../../constants/schema.js";
+import { sql } from "../../../utils/sql.js";
+import { security, tags as allTags } from "../../../constants/schema.js";
 
 export const tags = [allTags.conference];
 

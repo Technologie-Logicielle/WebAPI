@@ -1,5 +1,5 @@
 import { tags } from "../index.js";
-import { sql } from "../../../utils/sql.js";
+import { sql } from "../../../../utils/sql.js";
 /**
  * @type {import('fastify').FastifyPluginCallback}
  */

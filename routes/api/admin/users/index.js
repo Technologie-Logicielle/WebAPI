@@ -1,7 +1,7 @@
 import { UserInfo } from '../../user/index.js';
-import { security } from '../../../constants/schema.js';
+import { security } from '../../../../constants/schema.js';
 import { tags } from '../index.js';
-import { sql } from '../../../utils/sql.js';
+import { sql } from '../../../../utils/sql.js';
 
 const UserListSchema = {
   security,

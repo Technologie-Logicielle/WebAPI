@@ -1,6 +1,6 @@
 {
   "name": "crawler-backend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "This project was bootstrapped with Fastify-CLI.",
   "main": "app.js",
   "type": "module",
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "tap \"test/**/*.test.js\"",
-    "start": "fastify start -l info app.js",
+    "start": "HOST=0.0.0.0 fastify start -l info app.js",
     "dev": "fastify start -w -l info -P app.js",
     "prepare": "husky"
   },
@@ -29,7 +29,6 @@
     "@fastify/swagger-ui": "^3.0.0",
     "bcrypt": "^5.1.1",
     "fastify": "^4.0.0",
-    "fastify-cli": "^5.7.1",
     "fastify-mssql": "^2.0.1",
     "fastify-plugin": "^4.0.0",
     "mssql": "^10.0.2"
@@ -37,6 +36,7 @@
   "devDependencies": {
     "@fastify/swagger": "^8.14.0",
     "@scalar/fastify-api-reference": "^1.22.3",
+    "fastify-cli": "^6.1.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "3.2.5",

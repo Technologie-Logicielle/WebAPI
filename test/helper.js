@@ -3,19 +3,19 @@
 // This file contains code that we reuse
 // between our tests.
 
-import { build as buildApplication } from "fastify-cli/helper";
+import { build as buildApplication } from "fastify-cli/helper.js";
 import { join } from "path";
 const __dirname = import.meta.dirname;
 const AppPath = join(__dirname, "..", "app.js");
 
 // Fill in this config with all the configurations
 // needed for testing the application
-function config() {
+export function config() {
   return {};
 }
 
 // automatically build and tear down our instance
-async function build(t) {
+export async function build(t) {
   // you can set all the options supported by the fastify CLI command
   const argv = [AppPath];
 
@@ -30,7 +30,3 @@ async function build(t) {
   return app;
 }
 
-export default {
-  config,
-  build,
-};
