@@ -1,3 +1,5 @@
+[![ci](https://github.com/Technologie-Logicielle/WebAPI/actions/workflows/docker-build-and-push.yml/badge.svg)](https://github.com/Technologie-Logicielle/WebAPI/actions/workflows/docker-build-and-push.yml)
+
 # Getting Started with [Fastify-CLI](https://www.npmjs.com/package/fastify-cli)
 
 This project was bootstrapped with Fastify-CLI.
